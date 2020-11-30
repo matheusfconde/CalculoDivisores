@@ -11,14 +11,15 @@ namespace CalculoDivisores.Domain.Services.Impl
         {
             try
             {
-                List<int> listaDivisoresPrimos = new List<int>();
+                List<int> listaDivisores = new List<int>();
+                //List<int> listaDivisoresPrimos = new List<int>();
                 Console.WriteLine("Entre com um número inteiro maior que 2 para obter seus divisores. E desses divisores, quais são primos:");
                 var numeroEntrada = Console.ReadLine();
                 Numero numero = new Numero(numeroEntrada);
                 Console.WriteLine($"Lista de divisores do número {numeroEntrada}:");
-                listaDivisoresPrimos = GetDivisores(numero.NumeroEntrada);
+                listaDivisores = GetDivisores(numero.NumeroEntrada);
                 Console.WriteLine($"Lista de divisores primos do número {numeroEntrada}:");
-                ExibeDivisoresPrimos(listaDivisoresPrimos);
+                GetDivisoresPrimos(listaDivisores);
             }
             catch (Exception ex)
             {
@@ -27,33 +28,39 @@ namespace CalculoDivisores.Domain.Services.Impl
             }
         }
 
-        private void ExibeDivisoresPrimos(List<int> listaDivisoresPrimos)
+        public List<int> GetDivisoresPrimos(List<int> listaDivisores)
         {
-            foreach (int n in listaDivisoresPrimos)
+            List<int> listaDivisoresPrimos = new List<int>();
+            foreach (int n in listaDivisores)
             {
-                Console.Write("{0}\t", n);
+                if (IsNumeroPrimo(n))
+                {
+                    listaDivisoresPrimos.Add(n);
+                    Console.Write("{0}\t", n);
+                }
             }
+
+            return listaDivisoresPrimos;
         }
 
         public List<int> GetDivisores(int numeroEntrada)
         {
-            List<int> listaDivisoresPrimos = new List<int>();  
+            List<int> listaDivisores = new List<int>();
             for (int i = 1; i <= numeroEntrada; i++)
             {
                 if (numeroEntrada % i == 0)
                 {
-                    if (IsNumeroPrimo(i))
-                        listaDivisoresPrimos.Add(i);
+                    listaDivisores.Add(i);
                     Console.Write("{0}\t", i);
                 }
             }
             Console.WriteLine();
-            return listaDivisoresPrimos;
+            return listaDivisores;
         }
         public static bool IsNumeroPrimo(int numero)
         {
             bool bPrimo = false;
-            
+
             if (numero != 1)
             {
                 bPrimo = true;
